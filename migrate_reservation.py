@@ -108,6 +108,11 @@ def transform_csv(input_file, output_file):
     # Convert to DataFrame
     target_df = pd.DataFrame(data)
     
+    # Remove trailing spaces from all string columns
+    for col in target_df.columns:
+        if target_df[col].dtype == 'object':  # String columns
+            target_df[col] = target_df[col].astype(str).str.rstrip()
+    
     # Save to output file
     target_df.to_csv(output_file, index=False, encoding='utf-8-sig')
     print(f"Transformation complete! Output saved to: {output_file}")
