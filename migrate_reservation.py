@@ -74,7 +74,10 @@ def transform_csv(input_file, output_file):
     target_df['FAX'] = safe_get('業者FAX番号')
     target_df['メールアドレス(確認のためもう一度入力してください）'] = ''
     target_df['タイムスタンプ'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    target_df['Increment'] = range(1, len(target_df) + 1)
+    
+    # Generate Increment in YYYYMMDDNNNN format
+    today = datetime.now().strftime('%Y%m%d')
+    target_df['Increment'] = [f"{today}{str(i).zfill(4)}" for i in range(1, len(target_df) + 1)]
     
     target_df.to_csv(output_file, index=False, encoding='utf-8-sig')
     print(f"Advanced transformation complete! Output saved to: {output_file}")
